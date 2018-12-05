@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const package = require('../package.json');
+const pkg = require('../package.json');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -9,10 +9,10 @@ const autoprefixer = require('autoprefixer');
 const build = (() => {
     const timestamp = new Date().getTime();
     return {
-        name: package.name,
-        version: package.version,
+        name: pkg.name,
+        version: pkg.version,
         timestamp: timestamp,
-        author: package.author
+        author: pkg.author
     };
 })();
 
@@ -105,13 +105,13 @@ module.exports = {
         ...WEBPACK_PLUGINS,
         new ExtractTextPlugin('[name].[hash].css'),
         new HtmlWebpackPlugin({
-            title: 'idm-outlook',
+            title: 'Document Management for Outlook',
             filename: 'index.html',
             template: './index.html',
             chunks: ['app', 'vendor', 'polyfills']
         }),
         new HtmlWebpackPlugin({
-            title: 'idm-outlook',
+            title: 'Document Management for Outlook',
             filename: 'function-file/function-file.html',
             template: '../function-file/function-file.html',
             chunks: ['function-file']

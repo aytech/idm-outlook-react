@@ -39,8 +39,7 @@ h6 {
 
 .ms-welcome__header {
     min-height: 250px;
-    padding: 20px;
-    padding-bottom: 30px;
+    padding: 20px 20px 30px;
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;
@@ -83,8 +82,7 @@ h6 {
 }
 
 .ms-welcome__features.ms-List .ms-ListItem {
-    padding: 0px;
-    padding-bottom: 20px;
+    padding: 0 0 20px;
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: row;

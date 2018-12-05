@@ -46,7 +46,7 @@ export default class App extends React.Component<AppProps, AppState> {
         /**
          * Insert your Outlook code here
          */
-    };
+    }
 
     render() {
         const {
@@ -66,8 +66,8 @@ export default class App extends React.Component<AppProps, AppState> {
 
         return (
             <div className='ms-welcome'>
-                <Header logo='assets/logo-filled.png' title={this.props.title} message='Welcome' />
-                <HeroList message='Discover what idm-outlook can do for you today!' items={this.state.listItems}>
+                <Header logo='assets/trail.png' title={this.props.title} message='Welcome' />
+                <HeroList message='Discover what Document Management for Outlook can do for you today!' items={this.state.listItems}>
                     <p className='ms-font-l'>Modify the source files, then click <b>Run</b>.</p>
                     <Button className='ms-welcome__action' buttonType={ButtonType.hero} iconProps={{ iconName: 'ChevronRight' }} onClick={this.click}>Run</Button>
                 </HeroList>

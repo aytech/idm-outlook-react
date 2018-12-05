@@ -1,4 +1,4 @@
-SupportUrl<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <OfficeApp
           xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -13,14 +13,14 @@ SupportUrl<?xml version="1.0" encoding="UTF-8"?>
 
   <!--Version. Updates from the store only get triggered if there is a version change. -->
   <Version>1.0.0.0</Version>
-  <ProviderName>[Provider name]</ProviderName>
+  <ProviderName>Infor Inc.</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
-  <DisplayName DefaultValue="idm-outlook" />
-  <Description DefaultValue="[Outlook Add-in description]"/>
+  <DisplayName DefaultValue="Document Management for Outlook" />
+  <Description DefaultValue="Document Management add-in for Outlook allows uploading of supported documents to Infor Document Management directly from Outlook message"/>
 
   <!-- Icon for your add-in. Used on installation screens and the add-ins dialog. -->
-  <IconUrl DefaultValue="https://localhost:3000/assets/icon-32.png" />
+  <IconUrl DefaultValue="https://localhost:3000/assets/logo-32.png" />
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/hi-res-icon.png"/>
 
   <!--If you plan to submit this add-in to the Office Store, uncomment the SupportUrl element below-->
@@ -28,9 +28,7 @@ SupportUrl<?xml version="1.0" encoding="UTF-8"?>
 
   <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
   <AppDomains>
-    <AppDomain>AppDomain1</AppDomain>
-    <AppDomain>AppDomain2</AppDomain>
-    <AppDomain>AppDomain3</AppDomain>
+    <AppDomain>localhost</AppDomain>
   </AppDomains>
   <!--End Basic Settings. -->
 
@@ -104,9 +102,9 @@ SupportUrl<?xml version="1.0" encoding="UTF-8"?>
 
     <Resources>
       <bt:Images>
-        <bt:Image id="icon16" DefaultValue="https://localhost:3000/assets/icon-16.png"/>
-        <bt:Image id="icon32" DefaultValue="https://localhost:3000/assets/icon-32.png"/>
-        <bt:Image id="icon80" DefaultValue="https://localhost:3000/assets/icon-80.png"/>
+        <bt:Image id="icon16" DefaultValue="https://localhost:3000/assets/logo-16.png"/>
+        <bt:Image id="icon32" DefaultValue="https://localhost:3000/assets/logo-32.png"/>
+        <bt:Image id="icon80" DefaultValue="https://localhost:3000/assets/logo-80.png"/>
       </bt:Images>
       <bt:Urls>
         <bt:Url id="functionFile" DefaultValue="https://localhost:3000/function-file/function-file.html"/>
