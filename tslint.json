@@ -49,7 +49,7 @@
         "semicolon": [
             true,
             "always",
-            "ignore-interfaces"
+            "ignore-bound-class-methods"
         ],
         "triple-equals": [
             true,

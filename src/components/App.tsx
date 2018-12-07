@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, ButtonType } from 'office-ui-fabric-react';
+import { DefaultButton, ButtonType } from 'office-ui-fabric-react';
 import Header from './Header';
 import HeroList, { HeroListItem } from './HeroList';
 import Progress from './Progress';
@@ -31,12 +31,8 @@ export default class App extends React.Component<AppProps, AppState> {
                     primaryText: 'Achieve more with Office integration'
                 },
                 {
-                    icon: 'Unlock',
-                    primaryText: 'Unlock features and functionality'
-                },
-                {
-                    icon: 'Design',
-                    primaryText: 'Create and visualize like a pro'
+                    icon: 'CloudUpload',
+                    primaryText: 'Upload attachment directly to Document Management'
                 }
             ]
         });
@@ -46,7 +42,7 @@ export default class App extends React.Component<AppProps, AppState> {
         /**
          * Insert your Outlook code here
          */
-    }
+    };
 
     render() {
         const {
@@ -68,8 +64,10 @@ export default class App extends React.Component<AppProps, AppState> {
             <div className='ms-welcome'>
                 <Header logo='assets/trail.png' title={this.props.title} message='Welcome' />
                 <HeroList message='Discover what Document Management for Outlook can do for you today!' items={this.state.listItems}>
-                    <p className='ms-font-l'>Modify the source files, then click <b>Run</b>.</p>
-                    <Button className='ms-welcome__action' buttonType={ButtonType.hero} iconProps={{ iconName: 'ChevronRight' }} onClick={this.click}>Run</Button>
+                    <p className='ms-font-l'>Download ION API authentication file, then click on <b>Add Profile</b>.</p>
+                    <DefaultButton className='ms-welcome__action' buttonType={ButtonType.hero} iconProps={{ iconName: 'ChevronRight' }} onClick={this.click}>
+                      Add Profile
+                    </DefaultButton>
                 </HeroList>
             </div>
         );
