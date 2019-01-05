@@ -15,6 +15,8 @@ module.exports = webpackMerge(commonConfig, {
     hints: "warning"
   },
 
+  mode: 'development',
+
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
