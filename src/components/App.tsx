@@ -62,8 +62,10 @@ export default class App extends React.Component<AppProps, AppState> {
     return (
       <div className='ms-welcome'>
         <Header logo='assets/trail.png' title={this.props.title} message='Welcome'/>
-        <HeroList message='Discover what Infor Document Management can do for you today!' items={this.state.listItems}>
-          <p className='ms-font-l'>Download ION API authentication file, then click on <b>Add Profile</b>.</p>
+        <HeroList items={this.state.listItems}>
+          <p className='ms-font-l'>
+            Download ION API authentication file, then click on <b>Add Profile</b>.
+          </p>
           <DefaultButton className='ms-welcome__action' buttonType={ButtonType.hero}
                          iconProps={{iconName: 'ChevronRight'}} onClick={this.click}>
             Add Profile
