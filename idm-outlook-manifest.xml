@@ -16,7 +16,7 @@
   <ProviderName>Infor Inc.</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
-  <DisplayName DefaultValue="IDM" />
+  <DisplayName DefaultValue="Document Management" />
   <Description DefaultValue="Document Management add-in for Outlook allows uploading of supported documents to Infor Document Management directly from Outlook message"/>
 
   <!-- Icon for your add-in. Used on installation screens and the add-ins dialog. -->

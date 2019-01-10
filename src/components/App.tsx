@@ -53,7 +53,7 @@ export default class App extends React.Component<AppProps, AppState> {
       return (
         <Progress
           title={title}
-          logo='assets/trail.png'
+          logo='assets/logo.png'
           message='Please open the app in Microsoft Outlook to see the content.'
         />
       );
@@ -61,7 +61,7 @@ export default class App extends React.Component<AppProps, AppState> {
 
     return (
       <div className='ms-welcome'>
-        <Header logo='assets/trail.png' title={this.props.title} message='Welcome'/>
+        <Header logo='assets/logo.png' title={this.props.title} message='Welcome'/>
         <HeroList items={this.state.listItems}>
           <p className='ms-font-l'>
             Download ION API authentication file, then click on <b>Add Profile</b>.
