@@ -25,9 +25,14 @@ Click on Home -> Select IDM-Outlook. In Office 365 version the icon should appea
 Panel on the right side should open
 Authenticate and start using!
 
-Development Setup
+**Development Setup**
 1. Checkout to a directory
 2. Run npm install to download dependencies
 3. Run npm start
 You should have development server running on localhost:3000 (configurable in config/webpack.dev.js). Go through User Installation guide using idm-dev-manifest.xml manifest. Agree on any warnings related to SSL communication.
 
+**How to debug plugin running inside outlook (windows)**
+1. Navigate to `C:\Windows\System32\F12`
+2. Open F12Chooser.exe
+3. Select process of add-in in outlook
+4. You should see IE debug tools
