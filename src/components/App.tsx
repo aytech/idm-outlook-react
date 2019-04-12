@@ -1,12 +1,11 @@
+import { ButtonType, DefaultButton } from 'office-ui-fabric-react';
 import * as React from 'react';
-import {DefaultButton, ButtonType} from 'office-ui-fabric-react';
+import { Constants } from '../constants/constants';
 import Header from './Header';
-import HeroList, {HeroListItem} from './HeroList';
+import HeroList, { HeroListItem } from './HeroList';
 import Progress from './Progress';
 
-
 export interface AppProps {
-  title: string;
   isOfficeInitialized: boolean;
 }
 
@@ -15,14 +14,14 @@ export interface AppState {
 }
 
 export default class App extends React.Component<AppProps, AppState> {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props: AppProps) {
+    super(props);
     this.state = {
       listItems: []
     };
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     this.setState({
       listItems: [
         {
@@ -37,22 +36,19 @@ export default class App extends React.Component<AppProps, AppState> {
     });
   }
 
-  click = async () => {
+  public click = (): void => {
     /**
      * Insert your Outlook code here
      */
   };
 
-  render() {
-    const {
-      title,
-      isOfficeInitialized,
-    } = this.props;
+  public render(): JSX.Element {
+    const isOfficeInitialized = this.props.isOfficeInitialized;
 
     if (!isOfficeInitialized) {
       return (
         <Progress
-          title={title}
+          title={Constants.APP_TITLE}
           logo='assets/logo.png'
           message='Please open the app in Microsoft Outlook to see the content.'
         />
@@ -61,7 +57,7 @@ export default class App extends React.Component<AppProps, AppState> {
 
     return (
       <div className='ms-welcome'>
-        <Header logo='assets/logo.png' title={this.props.title} message='Welcome'/>
+        <Header logo='assets/logo.png' title={Constants.APP_TITLE} message='Welcome'/>
         <HeroList items={this.state.listItems}>
           <p className='ms-font-l'>
             Download ION API authentication file, then click on <b>Add Profile</b>.

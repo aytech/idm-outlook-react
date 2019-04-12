@@ -10,7 +10,7 @@ export interface HeroListProps {
 }
 
 export default class HeroList extends React.Component<HeroListProps> {
-  render() {
+  public render(): JSX.Element {
     const {
       children,
       items
