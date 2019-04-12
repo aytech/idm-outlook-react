@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-export interface HeaderProps {
+export interface IHeaderProps {
   title: string;
   logo: string;
   message: string;
 }
 
-export default class Header extends React.Component<HeaderProps> {
+export default class Header extends React.Component<IHeaderProps> {
   public render(): JSX.Element {
     const {
       title,

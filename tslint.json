@@ -66,9 +66,7 @@
             "check-type"
         ],
         "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
-        "interface-name": false,
         "typedef": [true, "call-signature", "parameter", "member-variable-declaration", "arrow-call-signature"],
-        "jsx-alignment": false,
         "ordered-imports": false,
         "no-implicit-dependencies": [true, "dev"],
         "no-submodule-imports": [true, "office-ui-fabric-react"]
