@@ -8,11 +8,11 @@ export interface ProgressProps {
 }
 
 export default class Progress extends React.Component<ProgressProps> {
-  render() {
+  public render(): JSX.Element {
     const {
       logo,
       message,
-      title,
+      title
     } = this.props;
 
     return (
