@@ -1,15 +1,15 @@
 import * as React from 'react';
 
-export interface HeroListItem {
+export interface IHeroListItem {
   icon: string;
   primaryText: string;
 }
 
-export interface HeroListProps {
-  items: HeroListItem[];
+export interface IHeroListProps {
+  items: IHeroListItem[];
 }
 
-export default class HeroList extends React.Component<HeroListProps> {
+export default class HeroList extends React.Component<IHeroListProps> {
   public render(): JSX.Element {
     const {
       children,
@@ -27,8 +27,11 @@ export default class HeroList extends React.Component<HeroListProps> {
     return (
       <main className='ms-welcome__main'>
         <h2 className='ms-font-xl ms-fontWeight-semilight ms-fontColor-neutralPrimary ms-u-slideUpIn20'>
-          <a href='https://www.infor.com/content/brochures/document-mgt.pdf/' title='Infor Document Management'
-             target='_blank'>
+          <a
+            href='https://www.infor.com/content/brochures/document-mgt.pdf/'
+            title='Infor Document Management'
+            target='_blank'
+          >
             Discover what Infor Document Management can do for you today!
           </a>
         </h2>

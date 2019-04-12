@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Spinner, SpinnerType } from 'office-ui-fabric-react';
 
-export interface ProgressProps {
+export interface IProgressProps {
   logo: string;
   message: string;
   title: string;
 }
 
-export default class Progress extends React.Component<ProgressProps> {
+export default class Progress extends React.Component<IProgressProps> {
   public render(): JSX.Element {
     const {
       logo,

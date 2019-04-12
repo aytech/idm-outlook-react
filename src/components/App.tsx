@@ -2,19 +2,19 @@ import { ButtonType, DefaultButton } from 'office-ui-fabric-react';
 import * as React from 'react';
 import { Constants } from '../constants/constants';
 import Header from './Header';
-import HeroList, { HeroListItem } from './HeroList';
+import HeroList, { IHeroListItem } from './HeroList';
 import Progress from './Progress';
 
-export interface AppProps {
+export interface IAppProps {
   isOfficeInitialized: boolean;
 }
 
-export interface AppState {
-  listItems: HeroListItem[];
+export interface IAppState {
+  listItems: IHeroListItem[];
 }
 
-export default class App extends React.Component<AppProps, AppState> {
-  constructor(props: AppProps) {
+export default class App extends React.Component<IAppProps, IAppState> {
+  constructor(props: IAppProps) {
     super(props);
     this.state = {
       listItems: []
@@ -62,8 +62,12 @@ export default class App extends React.Component<AppProps, AppState> {
           <p className='ms-font-l'>
             Download ION API authentication file, then click on <b>Add Profile</b>.
           </p>
-          <DefaultButton className='ms-welcome__action' buttonType={ButtonType.hero}
-                         iconProps={{iconName: 'ChevronRight'}} onClick={this.click}>
+          <DefaultButton
+            className='ms-welcome__action'
+            buttonType={ButtonType.hero}
+            iconProps={{iconName: 'ChevronRight'}}
+            onClick={this.click}
+          >
             Add Profile
           </DefaultButton>
         </HeroList>
