@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#App #render should render the component when "office environment" is initialized 1`] = `
+<div
+  className="ms-welcome"
+>
+  <section
+    className="ms-welcome__header ms-bgColor-neutralLighterms-u-fadeIn500"
+  >
+    <img
+      alt="Welcome"
+      className="round"
+      height="90"
+      src="assets/logo.png"
+      title="Welcome"
+      width="90"
+    />
+    <h1
+      className="ms-fontSize-su ms-fontWeight-light ms-fontColor-neutralPrimary"
+    >
+      Welcome
+    </h1>
+  </section>
+  <main
+    className="ms-welcome__main"
+  >
+    <h2
+      className="ms-font-xl ms-fontWeight-semilight ms-fontColor-neutralPrimary ms-u-slideUpIn20"
+    >
+      <a
+        href="https://www.infor.com/content/brochures/document-mgt.pdf/"
+        target="_blank"
+        title="Infor Document Management"
+      >
+        Discover what Infor Document Management can do for you today!
+      </a>
+    </h2>
+    <ul
+      className="ms-List ms-welcome__features ms-u-slideUpIn10"
+    >
+      <li
+        className="ms-ListItem"
+      >
+        <i
+          className="ms-Icon ms-Icon--Ribbon"
+        />
+        <span
+          className="ms-font-m ms-fontColor-neutralPrimary"
+        >
+          Achieve more with Office integration
+        </span>
+      </li>
+      <li
+        className="ms-ListItem"
+      >
+        <i
+          className="ms-Icon ms-Icon--CloudUpload"
+        />
+        <span
+          className="ms-font-m ms-fontColor-neutralPrimary"
+        >
+          Upload attachment directly to Document Management
+        </span>
+      </li>
+    </ul>
+    <p
+      className="ms-font-l"
+    >
+      Download ION API authentication file, then click on 
+      <b>
+        Add Profile
+      </b>
+      .
+    </p>
+    <button
+      aria-describedby={null}
+      aria-labelledby={null}
+      className="ms-Button ms-welcome__action ms-Button--default root-46"
+      data-is-focusable={true}
+      onClick={[Function]}
+      type="button"
+    >
+      <div
+        className="ms-Button-flexContainer flexContainer-47"
+      >
+        <i
+          aria-hidden={true}
+          className="ms-Button-icon icon-53"
+          data-icon-name="ChevronRight"
+          role="presentation"
+        />
+        <div
+          className="ms-Button-textContainer textContainer-48"
+        >
+          <div
+            className="ms-Button-label label-50"
+            id="id__1"
+          >
+            Add Profile
+          </div>
+        </div>
+      </div>
+    </button>
+  </main>
+</div>
+`;
+
+exports[`#App #render should render the component when "office environment" is not initialized 1`] = `
+<div
+  className="ms-welcome"
+>
+  <section
+    className="ms-welcome__progress ms-u-fadeIn500ms-u-fadeIn500"
+  >
+    <img
+      alt="Document Management for Outlook"
+      className=""
+      height="90"
+      src="assets/logo.png"
+      title="Document Management for Outlook"
+      width="90"
+    />
+    <h1
+      className="ms-fontSize-su ms-fontWeight-light ms-fontColor-neutralPrimary"
+    >
+      Document Management for Outlook
+    </h1>
+    <div
+      className="ms-Spinner root-42"
+    >
+      <div
+        className="ms-Spinner-circle ms-Spinner--large circle-43"
+      />
+      <div
+        className="ms-Spinner-label label-44"
+      >
+        Please open the app in Microsoft Outlook to see the content.
+      </div>
+      <div
+        aria-live="polite"
+        role="status"
+      />
+    </div>
+  </section>
+</div>
+`;
