@@ -12,7 +12,7 @@ export interface IFeatureListProps {
 function FeatureListItem(props: IFeatureListItem): JSX.Element {
   return (
     <li className='ms-ListItem'>
-      <i className={`ms-Icon ms-Icon--${props.icon}`}/>
+      <i className={`ms-Icon ms-Icon--${props.icon}`} />
       <span className='ms-font-m ms-fontColor-neutralPrimary'>
         {props.primaryText}
       </span>
@@ -22,7 +22,7 @@ function FeatureListItem(props: IFeatureListItem): JSX.Element {
 
 export function FeatureList(props: IFeatureListProps): JSX.Element {
   const listItems = props.items.map((item, index): JSX.Element => {
-    return (<FeatureListItem icon={item.icon} primaryText={item.primaryText} key={index}/>);
+    return (<FeatureListItem icon={item.icon} primaryText={item.primaryText} key={index} />);
   });
 
   return (

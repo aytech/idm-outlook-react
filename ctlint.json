@@ -1,0 +1,25 @@
+{
+  "tasks": {
+    "check-utf8": {
+      "run": true
+    },
+    "json-lint": {
+      "run": true
+    },
+    "formatting-typescript": {
+      "run": true
+    },
+    "typescript-lint": {
+      "run": true
+    },
+    "office-validation": {
+      "run": true
+    },
+    "building-production-package": {
+      "run": true
+    },
+    "unit-tests": {
+      "run": true
+    }
+  }
+}
