@@ -7,12 +7,12 @@ describe('#App', () => {
 
   describe('#render', () => {
     it('should render the component when "office environment" is not initialized', () => {
-      renderer = create(<App isOfficeInitialized={false}/>);
+      renderer = create(<App isOfficeInitialized={false} />);
       expect(renderer).toMatchSnapshot();
     });
 
     it('should render the component when "office environment" is initialized', () => {
-      renderer = create(<App isOfficeInitialized={true}/>);
+      renderer = create(<App isOfficeInitialized={true} />);
       expect(renderer).toMatchSnapshot();
     });
   });

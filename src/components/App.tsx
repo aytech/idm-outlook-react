@@ -15,7 +15,7 @@ export default class App extends React.Component<IAppProps, {}> {
 
     return (
       <div className='ms-welcome'>
-        <Header appInitialized={this.props.isOfficeInitialized}/>
+        <Header appInitialized={this.props.isOfficeInitialized} />
 
         {this.props.isOfficeInitialized ? <LandingPage /> : null}
 

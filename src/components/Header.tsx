@@ -27,11 +27,11 @@ export function Header(props: IHeaderProps): JSX.Element {
 
   return (
     <section className={sectionClassName + 'ms-u-fadeIn500'}>
-      <img width='90' height='90' src={logo} alt={title} title={title} className={logoClassName}/>
+      <img width='90' height='90' src={logo} alt={title} title={title} className={logoClassName} />
 
       <h1 className='ms-fontSize-su ms-fontWeight-light ms-fontColor-neutralPrimary'>{title}</h1>
 
-      {props.appInitialized ? null : <Spinner size={SpinnerSize.large} label={spinnerMessage}/>}
+      {props.appInitialized ? null : <Spinner size={SpinnerSize.large} label={spinnerMessage} />}
     </section>
   );
 }
