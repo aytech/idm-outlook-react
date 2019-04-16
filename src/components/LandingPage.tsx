@@ -44,7 +44,7 @@ export default class LandingPage extends React.Component<{}, {}> {
         <DefaultButton
           className='ms-welcome__action'
           buttonType={ButtonType.hero}
-          iconProps={{iconName: 'ChevronRight'}}
+          iconProps={{ iconName: 'ChevronRight' }}
           onClick={this.click}
         >
           Add Profile

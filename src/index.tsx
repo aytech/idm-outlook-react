@@ -16,7 +16,7 @@ const render = (Component: typeof App): void => {
   ReactDOM.render(
     (
       <AppContainer>
-        <Component isOfficeInitialized={isOfficeInitialized}/>
+        <Component isOfficeInitialized={isOfficeInitialized} />
       </AppContainer>
     ),
     document.getElementById('container')
