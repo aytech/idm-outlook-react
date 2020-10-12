@@ -45,7 +45,7 @@ function timeEnd() {
 }
 
 function getTotalTime(reset) {
-  var totalTime = formatTime(total);
+  let totalTime = formatTime(total);
 
   if (reset === true) {
     total = 0;
