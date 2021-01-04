@@ -1,7 +1,7 @@
 import { FeatureList } from './FeatureList';
 import { ButtonType, DefaultButton } from 'office-ui-fabric-react';
 import * as React from 'react';
-import { Constants } from '../constants/constants';
+import { Constants } from '../../constants/constants';
 
 const LIST_ITEMS = [
   {
@@ -29,8 +29,7 @@ export default class LandingPage extends React.Component<{}, {}> {
           <a
             href={Constants.PLUGIN_BROCHURE_LINK}
             title='Infor Document Management'
-            target='_blank'
-          >
+            target='_blank'>
             Discover what Infor Document Management can do for you today!
           </a>
         </h2>
