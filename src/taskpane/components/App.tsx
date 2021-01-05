@@ -79,7 +79,7 @@ export default class App extends React.Component<AppProps, AppState> {
           </Link>
         </nav>
         <Switch>
-          <Route exact path="/taskpane.html" component={ LandingPage } />
+          <Route exact path="/taskpane.html/" render={ props => <LandingPage { ...props } /> } />
           <Route exact path="/help" component={ Help } />
           <Route exact path="/profile" component={ Profile } />
           <Route component={ NotFound } />

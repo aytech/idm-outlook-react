@@ -21,11 +21,11 @@
     "lint": "office-addin-lint check",
     "lint:fix": "office-addin-lint fix",
     "prettier": "office-addin-lint prettier",
-    "start": "office-addin-debugging start idm-dev-manifest.xml",
-    "start:desktop": "office-addin-debugging start idm-dev-manifest.xml desktop",
-    "start:web": "office-addin-debugging start idm-dev-manifest.xml web",
-    "stop": "office-addin-debugging stop idm-dev-manifest.xml",
-    "validate": "office-addin-manifest validate idm-dev-manifest.xml",
+    "start": "office-addin-debugging start dev-manifest.xml",
+    "start:desktop": "office-addin-debugging start dev-manifest.xml desktop",
+    "start:web": "office-addin-debugging start dev-manifest.xml web",
+    "stop": "office-addin-debugging stop dev-manifest.xml",
+    "validate": "office-addin-manifest validate dev-manifest.xml",
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {

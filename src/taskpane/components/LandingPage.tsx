@@ -1,6 +1,6 @@
 // import { ButtonType, DefaultButton } from 'office-ui-fabric-react';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
 import Header from './Header';
 import HeroList from './HeroList';
 
@@ -15,9 +15,10 @@ const LIST_ITEMS = [
   }
 ];
 
-export default class LandingPage extends React.Component<{}, {}> {
 
-  componentDidMount() {
+export default class LandingPage extends React.Component<RouteComponentProps, {}> {
+
+  componentDidMount() {    
     this.setState({
       listItems: [
         {
@@ -43,6 +44,14 @@ export default class LandingPage extends React.Component<{}, {}> {
   };
 
   public render(): JSX.Element {
+    const {location} = this.props
+    if (location.search.indexOf("dialog") !== -1) {
+      const redirectUrl = location.search.substring(location.search.indexOf("=") + 1, location.search.lastIndexOf("taskpane.html") + 13)
+      let history = useHistory()
+      history.push(redirectUrl)
+      return null
+    }
+    
     return (
       <main className='ms-welcome__main'>
         <Header logo="assets/logo-80.png" title="Document Management" message="Document Management" />
@@ -67,5 +76,4 @@ export default class LandingPage extends React.Component<{}, {}> {
 
     );
   }
-
 }
