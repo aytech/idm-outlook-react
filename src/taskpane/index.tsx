@@ -10,12 +10,12 @@ initializeIcons();
 
 let isOfficeInitialized = false;
 
-const title = "Contoso Task Pane Add-in";
+const title = "Document Management";
 
 const render = Component => {
   ReactDOM.render(
     <AppContainer>
-      <Component title={title} isOfficeInitialized={isOfficeInitialized} />
+      <Component title={ title } isOfficeInitialized={ isOfficeInitialized } />
     </AppContainer>,
     document.getElementById("container")
   );
@@ -26,6 +26,8 @@ Office.initialize = () => {
   isOfficeInitialized = true;
   render(App);
 };
+
+render(App);
 
 if ((module as any).hot) {
   (module as any).hot.accept("./components/App", () => {

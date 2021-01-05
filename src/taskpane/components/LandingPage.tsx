@@ -1,7 +1,8 @@
-import { FeatureList } from './FeatureList';
-import { ButtonType, DefaultButton } from 'office-ui-fabric-react';
+// import { ButtonType, DefaultButton } from 'office-ui-fabric-react';
 import * as React from 'react';
-import { Constants } from '../../constants/constants';
+import { Link } from 'react-router-dom';
+import Header from './Header';
+import HeroList from './HeroList';
 
 const LIST_ITEMS = [
   {
@@ -16,7 +17,26 @@ const LIST_ITEMS = [
 
 export default class LandingPage extends React.Component<{}, {}> {
 
-  public click = (): void => {
+  componentDidMount() {
+    this.setState({
+      listItems: [
+        {
+          icon: 'Ribbon',
+          primaryText: 'Achieve more with Office integration'
+        },
+        {
+          icon: 'Unlock',
+          primaryText: 'Upload attachments directly to Document Management'
+        },
+        {
+          icon: 'Design',
+          primaryText: 'Create and visualize like a pro'
+        }
+      ]
+    });
+  }
+
+  public click = async () => {
     /**
      * Insert your Outlook code here
      */
@@ -25,29 +45,24 @@ export default class LandingPage extends React.Component<{}, {}> {
   public render(): JSX.Element {
     return (
       <main className='ms-welcome__main'>
-        <h2 className='ms-font-xl ms-fontWeight-semilight ms-fontColor-neutralPrimary ms-u-slideUpIn20'>
-          <a
-            href={Constants.PLUGIN_BROCHURE_LINK}
-            title='Infor Document Management'
-            target='_blank'>
-            Discover what Infor Document Management can do for you today!
-          </a>
-        </h2>
-
-        <FeatureList items={LIST_ITEMS} />
+        <Header logo="assets/logo-80.png" title="Document Management" message="Document Management" />
+        <HeroList message="Discover what Infor Document Management can do for you today!" items={ LIST_ITEMS } />
 
         <p className='ms-font-l'>
           Download ION API authentication file, then click on <b>Add Profile</b>.
         </p>
 
-        <DefaultButton
+        {/* <DefaultButton
           className='ms-welcome__action'
-          buttonType={ButtonType.hero}
-          iconProps={{ iconName: 'ChevronRight' }}
-          onClick={this.click}
+          buttonType={ ButtonType.hero }
+          iconProps={ { iconName: 'ChevronRight' } }
+          onClick={ this.click }
         >
           Add Profile
-        </DefaultButton>
+        </DefaultButton> */}
+        <Link to="/profile" className="ms-Button ms-Button--primary root-292">
+          <span>Add Profile</span>
+        </Link>
       </main>
 
     );

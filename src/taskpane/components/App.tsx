@@ -1,12 +1,21 @@
 import * as React from 'react';
-import { Button, ButtonType } from 'office-ui-fabric-react';
-import Header from './Header';
-import HeroList, { HeroListItem } from './HeroList';
+import {
+  BrowserRouter as Router,
+  Link,
+  Route,
+  Switch,
+} from "react-router-dom"
+import { HeroListItem } from './HeroList';
 import Progress from './Progress';
 // images references in the manifest
 import '../../../assets/logo-16.png';
 import '../../../assets/logo-32.png';
 import '../../../assets/logo-80.png';
+import LandingPage from './LandingPage';
+import { Help } from './Help';
+import { Profile } from './Profile';
+import { NotFound } from './NotFound';
+import { ChevronLeftSmallIcon } from '@fluentui/react-icons';
 
 /* global Button, Header, HeroList, HeroListItem, Progress */
 
@@ -20,8 +29,9 @@ export interface AppState {
 }
 
 export default class App extends React.Component<AppProps, AppState> {
-  constructor(props, context) {
-    super(props, context);
+
+  constructor(props) {
+    super(props);
     this.state = {
       listItems: []
     };
@@ -36,7 +46,7 @@ export default class App extends React.Component<AppProps, AppState> {
         },
         {
           icon: 'Unlock',
-          primaryText: 'Unlock features and functionality'
+          primaryText: 'Upload attachments directly to Document Management'
         },
         {
           icon: 'Design',
@@ -57,27 +67,24 @@ export default class App extends React.Component<AppProps, AppState> {
 
     if (!isOfficeInitialized) {
       return (
-        <Progress title={title} logo="assets/logo-80.png" message="Please sideload your addin to see app body." />
+        <Progress title={ title } logo="assets/logo.png" message="Please open the app in Microsoft Outlook to see the content." />
       );
     }
 
     return (
-      <div className="ms-welcome">
-        <Header logo="assets/logo-80.png" title={ this.props.title } message="Welcome"/>
-        <HeroList message="Discover what Office Add-ins can do for you today!" items={ this.state.listItems }>
-          <p className="ms-font-l">
-            Modify the source files, then click <b>Run</b>.
-          </p>
-          <Button
-            className="ms-welcome__action"
-            buttonType={ ButtonType.hero }
-            iconProps={ { iconName: 'ChevronRight' } }
-            onClick={ this.click }
-          >
-            Run
-          </Button>
-        </HeroList>
-      </div>
+      <Router>
+        <nav>
+          <Link to="/taskpane.html">
+            <ChevronLeftSmallIcon /> Foo
+          </Link>
+        </nav>
+        <Switch>
+          <Route exact path="/taskpane.html" component={ LandingPage } />
+          <Route exact path="/help" component={ Help } />
+          <Route exact path="/profile" component={ Profile } />
+          <Route component={ NotFound } />
+        </Switch>
+      </Router>
     );
   }
 }
