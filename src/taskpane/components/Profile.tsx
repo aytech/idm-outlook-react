@@ -1,5 +1,6 @@
 import * as React from "react"
-import Header from "./Header"
+import { useHistory } from "react-router-dom"
+import { ErrorMessage } from "./ErrorMessage"
 
 interface IonApiFile {
   ci: string,
@@ -19,16 +20,32 @@ interface IonApiFile {
 
 export const Profile = () => {
   const [ ionApiFile, setIonApiFile ] = React.useState<IonApiFile>(null)
+  const [ error, setError ] = React.useState(null)
+  const [ showError, setShowError ] = React.useState(false)
+  let history = useHistory()
 
   React.useEffect(() => {
     if (ionApiFile != null) {
-      console.log("Changed: ", Office.context.ui);
-      const f = ionApiFile
-      const url = `${ f.pu }${ f.oa }?client_id=${ f.ci }&response_type=token&redirect_uri=${ f.ru }`
-      Office.context.roamingSettings.set("dialog", url)
-      console.log("Changed: ", url);
-      Office.context.ui.displayDialogAsync(`https://localhost:3000/taskpane.html?dialog=${url}`, { height: 50, width: 50 }, (result) => {
-        console.log("Result: ", result);
+      Office.context.roamingSettings.set("ionFile", ionApiFile)
+      Office.context.roamingSettings.saveAsync()
+      const url = `${ ionApiFile.pu }${ ionApiFile.oa }?client_id=${ ionApiFile.ci }&response_type=token&redirect_uri=${ ionApiFile.ru }`
+      const options = { height: 50, width: 50 }
+
+      Office.context.ui.displayDialogAsync(`${ location.origin }/taskpane.html?dialog=${ url }`, options, (result: Office.AsyncResult<Office.Dialog>) => {
+        if (result.status === Office.AsyncResultStatus.Failed) {
+          setError(result.error.message)
+          setShowError(true)
+        }
+        result.value.addEventHandler(Office.EventType.DialogEventReceived, () => {
+          // This can be used to handle close and other scenarios, 
+          // see https://docs.microsoft.com/en-us/office/dev/add-ins/develop/dialog-handle-errors-events
+        })
+        result.value.addEventHandler(Office.EventType.DialogMessageReceived, (data: { message: string | boolean } | { error: number }) => {
+          Office.context.roamingSettings.set("token", data[ "message" ])
+          Office.context.roamingSettings.saveAsync()
+          result.value.close()
+          history.push("/main")
+        })
       })
     }
   }, [ ionApiFile ])
@@ -43,7 +60,7 @@ export const Profile = () => {
 
   return (
     <main className='ms-welcome__main'>
-      <Header logo="assets/logo-80.png" title="Document Management" message="Document Management" />
+      { <ErrorMessage message={ error } setShow={ setShowError } show={ showError } /> }
       <h2>Profile</h2>
       <input type="file" name="ionapi" accept=".ionapi" onChange={ async (event) => {
         readFile(event.target.files[ 0 ])

@@ -5,17 +5,17 @@ import {
   Route,
   Switch,
 } from "react-router-dom"
-import { HeroListItem } from './HeroList';
 import Progress from './Progress';
 // images references in the manifest
 import '../../../assets/logo-16.png';
 import '../../../assets/logo-32.png';
 import '../../../assets/logo-80.png';
-import LandingPage from './LandingPage';
+import { LandingPage } from './LandingPage';
 import { Help } from './Help';
 import { Profile } from './Profile';
 import { NotFound } from './NotFound';
 import { ChevronLeftSmallIcon } from '@fluentui/react-icons';
+import { Main } from './Main';
 
 /* global Button, Header, HeroList, HeroListItem, Progress */
 
@@ -24,67 +24,51 @@ export interface AppProps {
   isOfficeInitialized: boolean;
 }
 
-export interface AppState {
-  listItems: HeroListItem[];
+export interface Props {
+  title: string,
+  isOfficeInitialized: boolean
 }
 
-export default class App extends React.Component<AppProps, AppState> {
+export const App = ({ title, isOfficeInitialized }: Props) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      listItems: []
-    };
-  }
-
-  componentDidMount() {
-    this.setState({
-      listItems: [
-        {
-          icon: 'Ribbon',
-          primaryText: 'Achieve more with Office integration'
-        },
-        {
-          icon: 'Unlock',
-          primaryText: 'Upload attachments directly to Document Management'
-        },
-        {
-          icon: 'Design',
-          primaryText: 'Create and visualize like a pro'
-        }
-      ]
-    });
-  }
-
-  click = async () => {
-    /**
-     * Insert your Outlook code here
-     */
-  };
-
-  render() {
-    const { title, isOfficeInitialized } = this.props;
-
-    if (!isOfficeInitialized) {
-      return (
-        <Progress title={ title } logo="assets/logo.png" message="Please open the app in Microsoft Outlook to see the content." />
-      );
-    }
-
+  if (!isOfficeInitialized) {
     return (
-      <Router>
-        <nav>
-          <Link to="/taskpane.html">
-            <ChevronLeftSmallIcon /> Foo
-          </Link>
-        </nav>
-        <Switch>
-          <Route exact path="/taskpane.html/" render={ props => <LandingPage { ...props } /> } />
-          <Route exact path="/help" component={ Help } />
-          <Route exact path="/profile" component={ Profile } />
-          <Route component={ NotFound } />
-        </Switch>
-      </Router>
+      <Progress title={ title } logo="assets/logo.png" message="Please open the app in Microsoft Outlook to see the content." />
     );
   }
+
+  // Authentication initial flow
+  if (window.location.search.indexOf("dialog") !== -1) {
+    const redirectUrl = location.search.substring(location.search.indexOf("=") + 1)
+    window.location.href = redirectUrl
+    return null
+  }
+
+  // Authentication final flow
+  if (window.location.hash.indexOf("#access_token") !== -1) {
+    const urlParts = window.location.hash.substring(window.location.hash.indexOf("=") + 1).split("&")
+    const token = urlParts[ 0 ]
+    const type = urlParts[ 1 ].split("=")[ 1 ]
+    const expires = urlParts[ 2 ].split("=")[ 1 ]
+    const scope = decodeURI(urlParts[ 3 ].split("=")[ 1 ])
+    Office.context.ui.messageParent(JSON.stringify({ token, type, expires, scope }))
+    return null
+  }
+
+  return (
+    <Router>
+      <nav>
+        <Link to="/taskpane.html">
+          <ChevronLeftSmallIcon /> Foo
+          </Link>
+      </nav>
+      <Switch>
+        <Route exact path="/taskpane.html/" component={ LandingPage } />
+        <Route exact path="/help" component={ Help } />
+        <Route exact path="/profile" component={ Profile } />
+        <Route exact path="/main" component={ Main } />
+        <Route component={ NotFound } />
+      </Switch>
+    </Router>
+  );
 }

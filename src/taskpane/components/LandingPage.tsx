@@ -1,6 +1,6 @@
 // import { ButtonType, DefaultButton } from 'office-ui-fabric-react';
 import * as React from 'react';
-import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Header from './Header';
 import HeroList from './HeroList';
 
@@ -16,52 +16,26 @@ const LIST_ITEMS = [
 ];
 
 
-export default class LandingPage extends React.Component<RouteComponentProps, {}> {
+export const LandingPage = () => {
+  const token = Office.context.roamingSettings.get("token")
+  let history = useHistory()
+  console.log("Token: ", token);
+  console.log("Settings: ", Office.context.roamingSettings);
 
-  componentDidMount() {    
-    this.setState({
-      listItems: [
-        {
-          icon: 'Ribbon',
-          primaryText: 'Achieve more with Office integration'
-        },
-        {
-          icon: 'Unlock',
-          primaryText: 'Upload attachments directly to Document Management'
-        },
-        {
-          icon: 'Design',
-          primaryText: 'Create and visualize like a pro'
-        }
-      ]
-    });
+  if (token !== undefined) {
+    history.push("/main")
   }
+  
+  return (
+    <main className='ms-welcome__main'>
+      <Header logo="assets/logo-80.png" title="Document Management" message="Document Management" />
+      <HeroList message="Discover what Infor Document Management can do for you today!" items={ LIST_ITEMS } />
 
-  public click = async () => {
-    /**
-     * Insert your Outlook code here
-     */
-  };
+      <p className='ms-font-l'>
+        Download ION API authentication file, then click on <b>Add Profile</b>.
+      </p>
 
-  public render(): JSX.Element {
-    const {location} = this.props
-    if (location.search.indexOf("dialog") !== -1) {
-      const redirectUrl = location.search.substring(location.search.indexOf("=") + 1, location.search.lastIndexOf("taskpane.html") + 13)
-      let history = useHistory()
-      history.push(redirectUrl)
-      return null
-    }
-    
-    return (
-      <main className='ms-welcome__main'>
-        <Header logo="assets/logo-80.png" title="Document Management" message="Document Management" />
-        <HeroList message="Discover what Infor Document Management can do for you today!" items={ LIST_ITEMS } />
-
-        <p className='ms-font-l'>
-          Download ION API authentication file, then click on <b>Add Profile</b>.
-        </p>
-
-        {/* <DefaultButton
+      {/* <DefaultButton
           className='ms-welcome__action'
           buttonType={ ButtonType.hero }
           iconProps={ { iconName: 'ChevronRight' } }
@@ -69,11 +43,9 @@ export default class LandingPage extends React.Component<RouteComponentProps, {}
         >
           Add Profile
         </DefaultButton> */}
-        <Link to="/profile" className="ms-Button ms-Button--primary root-292">
-          <span>Add Profile</span>
-        </Link>
-      </main>
-
-    );
-  }
+      <Link to="/profile" className="ms-Button ms-Button--primary root-292">
+        <span>Add Profile</span>
+      </Link>
+    </main>
+  )
 }

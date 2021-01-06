@@ -30,8 +30,6 @@ nav {
 }
 
 .ms-Button {
-  background-color: rgb(0, 120, 212);
-  border: 1px solid rgb(0, 120, 212);
   border-radius: 2px;
   box-sizing: border-box;
   color: white;
@@ -46,13 +44,17 @@ nav {
   user-select: none;
 }
 
-.ms-Button:hover,
-.ms-Button:active {
+.ms-Button--primary {
+  background-color: rgb(0, 120, 212);
+  border: 1px solid rgb(0, 120, 212);
+}
+
+.ms-Button--primary:hover, .ms-Button--primary:hover {
   background-color: rgb(16, 110, 190);
   border: 1px solid rgb(16, 110, 190);
 }
 
-.ms-Button > span {
+.ms-Button>span {
   align-items: center;
   display: flex;
   flex-wrap: nowrap;
@@ -85,7 +87,7 @@ nav {
   padding: 10px 20px;
 }
 
-.ms-welcome__main > h2 {
+.ms-welcome__main>h2 {
   width: 100%;
   text-align: center;
 }
@@ -119,7 +121,7 @@ nav {
   padding: 20px 20px 30px;
 }
 
-.ms-welcome__progress > h1 {
+.ms-welcome__progress>h1 {
   margin-top: 30px;
   text-align: center;
 }
