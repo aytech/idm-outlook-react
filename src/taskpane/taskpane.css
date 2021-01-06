@@ -20,25 +20,22 @@ ul {
 }
 
 nav {
-  margin: 0 10px;
-  padding: 1em .5em;
+  padding: .5em 1em;
   border-bottom: 1px solid #c8c6c4;
 }
 
-#container {
-  border-top: 1px solid #c8c6c4;
+nav a {
+  color: black;
+  outline: none;
 }
 
 .ms-Button {
   border-radius: 2px;
   box-sizing: border-box;
-  color: white;
   display: inline-block;
   font-size: 14px;
   font-weight: 400;
   height: 32px;
-  min-width: 80px;
-  padding: 0 16px;
   text-align: center;
   text-decoration: none;
   user-select: none;
@@ -133,4 +130,8 @@ nav {
 .ms-Button.ms-Button--hero:hover .ms-Button-label, .ms-Button.ms-Button--hero:focus .ms-Button-label {
   color: #005a9e;
   cursor: pointer;
+}
+
+.pull-right {
+  text-align: right;
 }

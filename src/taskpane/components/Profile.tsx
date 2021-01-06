@@ -1,6 +1,7 @@
 import * as React from "react"
-import { useHistory } from "react-router-dom"
+import { RouteComponentProps } from "react-router-dom"
 import { ErrorMessage } from "./ErrorMessage"
+import { Navigation } from "./Navigation"
 
 interface IonApiFile {
   ci: string,
@@ -18,11 +19,10 @@ interface IonApiFile {
   v: string
 }
 
-export const Profile = () => {
+export const Profile = ({ history }: RouteComponentProps) => {
   const [ ionApiFile, setIonApiFile ] = React.useState<IonApiFile>(null)
   const [ error, setError ] = React.useState(null)
   const [ showError, setShowError ] = React.useState(false)
-  let history = useHistory()
 
   React.useEffect(() => {
     if (ionApiFile != null) {
@@ -59,12 +59,18 @@ export const Profile = () => {
   }
 
   return (
-    <main className='ms-welcome__main'>
-      { <ErrorMessage message={ error } setShow={ setShowError } show={ showError } /> }
-      <h2>Profile</h2>
-      <input type="file" name="ionapi" accept=".ionapi" onChange={ async (event) => {
-        readFile(event.target.files[ 0 ])
-      } } />
-    </main>
+    <React.Fragment>
+      <Navigation
+        history={ history }
+        showDocumentPath={ true }
+        showSettingsPath={ false } />
+      <main className='ms-welcome__main'>
+        { <ErrorMessage message={ error } setShow={ setShowError } show={ showError } /> }
+        <h2>Profile</h2>
+        <input type="file" name="ionapi" accept=".ionapi" onChange={ async (event) => {
+          readFile(event.target.files[ 0 ])
+        } } />
+      </main>
+    </React.Fragment >
   )
 }

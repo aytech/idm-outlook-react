@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
   BrowserRouter as Router,
-  Link,
   Route,
   Switch,
 } from "react-router-dom"
@@ -14,10 +13,8 @@ import { LandingPage } from './LandingPage';
 import { Help } from './Help';
 import { Profile } from './Profile';
 import { NotFound } from './NotFound';
-import { ChevronLeftSmallIcon } from '@fluentui/react-icons';
 import { Main } from './Main';
-
-/* global Button, Header, HeroList, HeroListItem, Progress */
+import { Privacy } from './Privacy';
 
 export interface AppProps {
   title: string;
@@ -57,16 +54,12 @@ export const App = ({ title, isOfficeInitialized }: Props) => {
 
   return (
     <Router>
-      <nav>
-        <Link to="/taskpane.html">
-          <ChevronLeftSmallIcon /> Foo
-          </Link>
-      </nav>
       <Switch>
-        <Route exact path="/taskpane.html/" component={ LandingPage } />
-        <Route exact path="/help" component={ Help } />
-        <Route exact path="/profile" component={ Profile } />
-        <Route exact path="/main" component={ Main } />
+        <Route exact path="/taskpane.html/" render={ props => { return <LandingPage { ...props } /> } } />
+        <Route exact path="/help" render={ props => { return <Help { ...props } /> } } />
+        <Route exact path="/profile" render={ props => { return <Profile { ...props } /> } } />
+        <Route exact path="/main" render={ props => { return <Main { ...props } /> } } />
+        <Route exact path="/privacy" render={ props => { return <Privacy { ...props } /> } } />
         <Route component={ NotFound } />
       </Switch>
     </Router>
