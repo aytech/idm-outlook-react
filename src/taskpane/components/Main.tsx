@@ -1,12 +1,15 @@
 import * as React from "react"
 import { RouteComponentProps } from "react-router-dom";
-import { ChoiceGroup, IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
+import { ChoiceGroup, IChoiceGroupOption } from "office-ui-fabric-react/lib/ChoiceGroup";
 import { Navigation } from "./Navigation";
 import { IIonApiFile } from "../types/IIonApiFile";
 import { ProgressIndicator } from "office-ui-fabric-react/lib/ProgressIndicator";
 import { Dropdown, IDropdownOption, IDropdownStyles } from "office-ui-fabric-react/lib/Dropdown";
 import { IDocumentEntity } from "../types/IDocumentEntity";
 import { IEntity } from "../types/IEntity";
+import { DefaultEffects } from "@fluentui/react";
+import { IAttribute } from "../types/IAttribute";
+import { Attributes } from "./Attributes";
 
 interface IIonToken {
   token: string,
@@ -20,7 +23,9 @@ export const Main = ({ history }: RouteComponentProps) => {
   const [ loading, setLoading ] = React.useState(true)
   const [ loadingDescription ] = React.useState("Fetching document entities...")
   const [ entities, setEntities ] = React.useState<IDocumentEntity[]>([])
+  const [ originalEntities, setOriginalEntities ] = React.useState<IEntity[]>([])
   const [ selectedEntity, setSelectedEntity ] = React.useState<IDropdownOption>();
+  const [ attributes, setAttributes ] = React.useState<IAttribute[]>([]);
 
   const getEntities = async (token: IIonToken) => {
     const ionFile: IIonApiFile = Office.context.roamingSettings.get("ionFile");
@@ -40,10 +45,12 @@ export const Main = ({ history }: RouteComponentProps) => {
       return
     }
     const json = await response.json()
+    const entities: IEntity[] = json.entities.entity
     setLoading(false)
-    setEntities(json.entities.entity.map((entity: IEntity) => {
+    setEntities(entities.map((entity: IEntity) => {
       return { key: entity.name, text: entity.desc }
     }))
+    setOriginalEntities(entities)
   }
 
   React.useEffect(() => {
@@ -105,19 +112,30 @@ export const Main = ({ history }: RouteComponentProps) => {
     ) : null
   }
 
-  const dropdownStyles: Partial<IDropdownStyles> = { dropdown: { width: 300 } };
+  const dropdownStyles: Partial<IDropdownStyles> = { dropdown: { width: "100%" } };
   const selectEntity = (_event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
+    const originalEntity: IEntity = originalEntities.find((entity: IEntity) => entity.name === item.key)
+    setAttributes(originalEntity.attrs.attr.filter((attribute: IAttribute): IAttribute | boolean => {
+      const invisibleAttributes = [
+        "MDS_ID",
+        "MDS_TemplateName",
+        "MDS_TemplateDetails"
+      ]
+      return invisibleAttributes.indexOf(attribute.name) === -1;
+    }))
     setSelectedEntity(item)
   }
   const renderDocumentEntities = () => {
     return entities.length > 0 ? (
-      <Dropdown
-        label="Document entities"
-        selectedKey={ selectedEntity ? selectedEntity.key : undefined }
-        onChange={ selectEntity }
-        placeHolder="Select entity"
-        options={ entities }
-        styles={ dropdownStyles } />
+      <div className="ms-Card__main" style={ { boxShadow: DefaultEffects.elevation4 } }>
+        <Dropdown
+          label="Document entities"
+          selectedKey={ selectedEntity ? selectedEntity.key : undefined }
+          onChange={ selectEntity }
+          placeHolder="Select entity"
+          options={ entities }
+          styles={ dropdownStyles } />
+      </div>
     ) : null
   }
 
@@ -127,15 +145,17 @@ export const Main = ({ history }: RouteComponentProps) => {
         history={ history }
         showSettingsPath={ true } />
       <main className="ms-welcome__main">
-        <ChoiceGroup
-          selectedKey={ selectedAttachment }
-          options={ attachments }
-          onChange={ onSelectedAttachmentChange }
-          label="Select attachment" />
-        <hr />
-        { renderLoadingIndicator() }
+        <div className="ms-Card__main" style={ { boxShadow: DefaultEffects.elevation4 } }>
+          <ChoiceGroup
+            selectedKey={ selectedAttachment }
+            options={ attachments }
+            onChange={ onSelectedAttachmentChange }
+            label="Select attachment" />
+        </div>
         { renderDocumentEntities() }
+        <Attributes attributes={ attributes } />
+        { renderLoadingIndicator() }
       </main>
-    </React.Fragment>
+    </React.Fragment >
   )
 }
