@@ -3,10 +3,11 @@ import { mergeStyleSets } from "office-ui-fabric-react/lib/Styling";
 import { DatePicker, DayOfWeek, IDatePickerStrings } from "office-ui-fabric-react/lib/components/DatePicker";
 
 interface Props {
-  label: string
+  label: string,
+  onChange: (value: boolean | string) => void
 }
 
-export const AttributeDatePicker = ({ label }: Props) => {
+export const AttributeDatePicker = ({ label, onChange }: Props) => {
 
   const DayPickerStrings: IDatePickerStrings = {
     months: [
@@ -49,13 +50,19 @@ export const AttributeDatePicker = ({ label }: Props) => {
   return (
     <div>
       <DatePicker
+        ariaLabel="Select a date"
         className={ controlClass.control }
         firstDayOfWeek={ DayOfWeek.Sunday }
         label={ label }
-        strings={ DayPickerStrings }
-        showMonthPickerAsOverlay={ true }
+        onSelectDate={ (date: Date | null | undefined) => {
+          if (date !== null && date !== undefined) {
+            onChange(date.toISOString())
+          }
+        } }
         placeholder="Select a date..."
-        ariaLabel="Select a date" />
+        showMonthPickerAsOverlay={ true }
+        strings={ DayPickerStrings }
+      />
     </div>
   )
 }

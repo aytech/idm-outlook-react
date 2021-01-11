@@ -88,7 +88,7 @@ nav a {
   flex-wrap: nowrap;
   -webkit-flex: 1 0 0;
   flex: 1 0 0;
-  padding: 10px 20px;
+  padding: 1em 1em 5em;
 }
 
 .ms-welcome__main>h2 {

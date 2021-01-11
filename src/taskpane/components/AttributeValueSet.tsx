@@ -3,16 +3,17 @@ import { Dropdown, IDropdownOption } from "office-ui-fabric-react/lib/components
 import { IValueSetValue } from "../types/IAttribute"
 
 interface Props {
+  onChange: (value: boolean | string) => void,
   value: IValueSetValue[]
 }
 
-export const AttributeValueSet = ({ value }: Props) => {
+export const AttributeValueSet = ({ onChange, value }: Props) => {
   return (
     <Dropdown
       label="Valueset"
       selectedKey={ undefined }
       onChange={ (_event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
-        console.log("Changing: ", item)
+        onChange(item.text)
       } }
       placeholder="Select value"
       options={ value.map((set: IValueSetValue) => {

@@ -13,5 +13,6 @@ export interface IAttribute {
   name: string,
   required: string,
   type: string,
+  value?: string | boolean,
   valueset?: IValueSet
 }

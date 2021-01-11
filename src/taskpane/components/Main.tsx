@@ -1,15 +1,17 @@
 import * as React from "react"
 import { RouteComponentProps } from "react-router-dom";
-import { ChoiceGroup, IChoiceGroupOption } from "office-ui-fabric-react/lib/ChoiceGroup";
-import { Navigation } from "./Navigation";
-import { IIonApiFile } from "../types/IIonApiFile";
-import { ProgressIndicator } from "office-ui-fabric-react/lib/ProgressIndicator";
-import { Dropdown, IDropdownOption, IDropdownStyles } from "office-ui-fabric-react/lib/Dropdown";
-import { IDocumentEntity } from "../types/IDocumentEntity";
-import { IEntity } from "../types/IEntity";
-import { DefaultEffects } from "@fluentui/react";
-import { IAttribute } from "../types/IAttribute";
-import { Attributes } from "./Attributes";
+import { ChoiceGroup, IChoiceGroupOption } from "office-ui-fabric-react/lib/ChoiceGroup"
+import { Navigation } from "./Navigation"
+import { IIonApiFile } from "../types/IIonApiFile"
+import { ProgressIndicator } from "office-ui-fabric-react/lib/ProgressIndicator"
+import { Dropdown, IDropdownOption, IDropdownStyles } from "office-ui-fabric-react/lib/Dropdown"
+import { IDocumentEntity } from "../types/IDocumentEntity"
+import { IAcl, IEntity } from "../types/IEntity"
+import { IAttribute } from "../types/IAttribute"
+import { Attributes } from "./Attributes"
+import { Acls } from "./Acls";
+import { PrimaryButton } from "office-ui-fabric-react/lib/components/Button";
+import { DefaultEffects } from "office-ui-fabric-react/lib/Styling";
 
 interface IIonToken {
   token: string,
@@ -26,6 +28,7 @@ export const Main = ({ history }: RouteComponentProps) => {
   const [ originalEntities, setOriginalEntities ] = React.useState<IEntity[]>([])
   const [ selectedEntity, setSelectedEntity ] = React.useState<IDropdownOption>();
   const [ attributes, setAttributes ] = React.useState<IAttribute[]>([]);
+  const [ acls, setAcls ] = React.useState<IAcl[]>([]);
 
   const getEntities = async (token: IIonToken) => {
     const ionFile: IIonApiFile = Office.context.roamingSettings.get("ionFile");
@@ -124,6 +127,7 @@ export const Main = ({ history }: RouteComponentProps) => {
       return invisibleAttributes.indexOf(attribute.name) === -1;
     }))
     setSelectedEntity(item)
+    setAcls(originalEntity.acls.acl)
   }
   const renderDocumentEntities = () => {
     return entities.length > 0 ? (
@@ -137,6 +141,18 @@ export const Main = ({ history }: RouteComponentProps) => {
           styles={ dropdownStyles } />
       </div>
     ) : null
+  }
+  const renderSubmitButton = () => {
+    return selectedEntity !== undefined ? (
+      <PrimaryButton
+        iconProps={ { iconName: "CloudUpload" } }
+        onClick={ uploadDocument }
+        text="Upload" />
+    ) : null
+  }
+  const uploadDocument = (_event: React.MouseEvent<HTMLElement>) => {
+    console.log("Acls: ", acls)
+    console.log("Attributes: ", attributes)
   }
 
   return (
@@ -154,6 +170,8 @@ export const Main = ({ history }: RouteComponentProps) => {
         </div>
         { renderDocumentEntities() }
         <Attributes attributes={ attributes } />
+        <Acls acls={ acls } />
+        { renderSubmitButton() }
         { renderLoadingIndicator() }
       </main>
     </React.Fragment >
