@@ -1,9 +1,8 @@
 import * as React from "react"
-import { TextField } from "office-ui-fabric-react/lib/components/TextField"
-import { Toggle } from "office-ui-fabric-react/lib/components/Toggle"
 import { IAttribute } from "../types/IAttribute"
 import { AttributeValueSet } from "./AttributeValueSet"
-import { AttributeDatePicker } from "./AttributeDatePicker"
+import { AttributeString } from "./attributes/AttributeString"
+import { AttributeBoolean } from "./attributes/AttributeBoolean"
 
 interface Props {
   attribute: IAttribute
@@ -29,41 +28,29 @@ export const Attribute = ({ attribute }: Props) => {
   }
 
   const isValidRequired = (value: string | undefined): boolean => {
-    if (attribute.required === "true" && value.trim().length < 1) {
-      setErrorMessage("Value is required")
-      return false
+    if (attribute.required === "true") {
+      return value.trim().length > 0
     }
     return true
   }
-
-  const isValidString = (value: string | undefined): boolean => {
-    if (!isValidRequired(value)) {
-      return false
-    }
-    return true
-  }
-
-  const [ errorMessage, setErrorMessage ] = React.useState<string>()
 
   switch (attribute.type) {
     case ATTRIBUTE_TYPES.DATE:
     case ATTRIBUTE_TYPES.TIMESTAMP:
-      return (
-        <AttributeDatePicker
-          label={ attribute.desc }
-          onChange={ updateAttributeValue }
-        />
-      )
+      // Pending validation functionality
+      return null
+    // return (
+    //   <AttributeDatePicker
+    //     label={ attribute.desc }
+    //     onChange={ updateAttributeValue }
+    //   />
+    // )
     case ATTRIBUTE_TYPES.BOOLEAN:
       return (
-        <Toggle
+        <AttributeBoolean
+          checked={ attribute.default }
           label={ attribute.desc }
-          defaultChecked={ attribute.default === "true" }
-          onText="On"
-          offText="Off"
-          onChange={ (_event: React.MouseEvent<HTMLElement>, checked: boolean) => {
-            updateAttributeValue(checked)
-          } } />
+          onChange={ updateAttributeValue } />
       )
     case ATTRIBUTE_TYPES.STRING:
       if (attribute.valueset !== undefined) {
@@ -73,6 +60,15 @@ export const Attribute = ({ attribute }: Props) => {
             value={ attribute.valueset.value } />
         )
       }
+      return (
+        <AttributeString
+          defaultValue={ attribute.default }
+          label={ attribute.desc }
+          isValidRequired={ isValidRequired }
+          onChange={ updateAttributeValue }
+          required={ attribute.required === "true" }
+          size={ attribute.size } />
+      )
     case ATTRIBUTE_TYPES.SHORT:
     case ATTRIBUTE_TYPES.LONG:
     case ATTRIBUTE_TYPES.DECIMAL:
@@ -80,11 +76,6 @@ export const Attribute = ({ attribute }: Props) => {
     case ATTRIBUTE_TYPES.DOUBLE:
     case ATTRIBUTE_TYPES.UUID:
     default:
-      return <TextField
-        label={ attribute.desc }
-        required={ attribute.required === "true" }
-        onChange={ (_event: React.FormEvent<HTMLElement>, value: string) => {
-          updateAttributeValue(value)
-        } } />
+      return null
   }
 }

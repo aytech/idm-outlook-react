@@ -12,6 +12,7 @@ export interface IAttribute {
   desc: string,
   name: string,
   required: string,
+  size?: string,
   type: string,
   value?: string | boolean,
   valueset?: IValueSet
