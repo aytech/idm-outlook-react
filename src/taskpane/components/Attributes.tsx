@@ -3,12 +3,25 @@ import { IStackProps, Stack } from "office-ui-fabric-react/lib/components/Stack"
 import { DefaultEffects } from "office-ui-fabric-react/lib/Styling";
 import { IAttribute } from "../types/IAttribute"
 import { Attribute } from "./Attribute";
+import { IFormErrors } from "../types/IFormErrors";
 
 interface Props {
-  attributes: IAttribute[]
+  attributes: IAttribute[],
+  formErrors: IFormErrors,
+  setFormErrors: (errors: IFormErrors) => void
 }
 
-export const Attributes = ({ attributes }: Props) => {
+export const Attributes = ({
+  attributes,
+  formErrors,
+  setFormErrors
+}: Props) => {
+
+  const setFormError = (name: string, message: string | null): void => {
+    const errors = formErrors
+    errors[ name ] = message
+    setFormErrors(errors)
+  }
 
   const columnProps: Partial<IStackProps> = {
     tokens: { childrenGap: 15 },
@@ -21,7 +34,13 @@ export const Attributes = ({ attributes }: Props) => {
         <Stack { ...columnProps }>
           {
             attributes.map((attribute: IAttribute) => {
-              return <Attribute attribute={ attribute } key={ attribute.name } />
+              return (
+                <Attribute
+                  attribute={ attribute }
+                  key={ attribute.name }
+                  setFormError={ setFormError }
+                />
+              )
             })
           }
         </Stack>

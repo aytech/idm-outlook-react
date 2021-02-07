@@ -12,6 +12,9 @@ import { Attributes } from "./Attributes"
 import { Acls } from "./Acls";
 import { PrimaryButton } from "office-ui-fabric-react/lib/components/Button";
 import { DefaultEffects } from "office-ui-fabric-react/lib/Styling";
+import { IFormErrors } from "../types/IFormErrors";
+import { ErrorMessage } from "./ErrorMessage";
+import { InlineNotification } from "./notifications/InlineNotification";
 
 interface IIonToken {
   token: string,
@@ -28,10 +31,13 @@ export const Main = ({ history }: RouteComponentProps) => {
   const [ originalEntities, setOriginalEntities ] = React.useState<IEntity[]>([])
   const [ selectedEntity, setSelectedEntity ] = React.useState<IDropdownOption>();
   const [ attributes, setAttributes ] = React.useState<IAttribute[]>([]);
+  const [ formError, setFormError ] = React.useState<string>(null)
+  const [ formErrors, setFormErrors ] = React.useState<IFormErrors>({})
   const [ acls, setAcls ] = React.useState<IAcl[]>([]);
+  const [ ionFile, setIonFile ] = React.useState<IIonApiFile>()
+  const [ token, setToken ] = React.useState<IIonToken>()
 
-  const getEntities = async (token: IIonToken) => {
-    const ionFile: IIonApiFile = Office.context.roamingSettings.get("ionFile");
+  const getEntities = async () => {
     const request = {
       method: "GET",
       headers: {
@@ -41,12 +47,14 @@ export const Main = ({ history }: RouteComponentProps) => {
     };
     const url = `${ ionFile.iu }/${ ionFile.ti }/IDM/api/datamodel/entities`
     const response = await fetch(url, request)
+
     if (response.status === 401) { // Token has expired
       Office.context.roamingSettings.set("error", "Profile has expired, please re-authenticate")
       Office.context.roamingSettings.saveAsync()
       history.push("/profile")
       return
     }
+
     const json = await response.json()
     const entities: IEntity[] = json.entities.entity
     setLoading(false)
@@ -57,13 +65,21 @@ export const Main = ({ history }: RouteComponentProps) => {
   }
 
   React.useEffect(() => {
-    const token: string = Office.context.roamingSettings.get("token");
-    if (token !== undefined) {
-      getEntities(JSON.parse(token))
+    if (token !== undefined && ionFile !== undefined) {
+      getEntities()
+    }
+  }, [ ionFile, token ])
+
+  React.useEffect(() => {
+    const ionFile: IIonApiFile = Office.context.roamingSettings.get("ionFile")
+    const token: IIonToken = Office.context.roamingSettings.get("token")
+    if (token !== undefined && ionFile !== undefined) {
+      setIonFile(ionFile)
+      setToken(token)
     }
   }, [])
 
-  // const postAttachmentToIdm = async (token: any, ewsToken: string) => {
+  // const uploadAttachment = async (ewsToken: string) => {
   //   const postRequest = {
   //     method: "POST",
   //     headers: {
@@ -75,28 +91,54 @@ export const Main = ({ history }: RouteComponentProps) => {
   //       "exchangeToken": ewsToken,
   //       "attachmentId": Office.context.mailbox.item.attachments[ 0 ].id,
   //       "emailId": Office.context.mailbox.item.itemId,
-  //       "entity": "Oleg_Test",
+  //       "entity": selectedEntity.key,
   //       "accessControlList": "Public",
-  //       "attributes": []
+  //       "attributes": attributes
   //     })
   //   }
   //   const url = `${ ionFile.iu }/${ ionFile.ti }/IDM/api/v1/outlook/upload`
-  //   // const request = await fetch(url, postRequest)
-  //   // const json = await request.json()
-  //   console.log("Response: ", postRequest, url);
+  //   const request = await fetch(url, postRequest)
+  //   const json = await request.json()
+  //   console.log("Response: ", json);
   // }
 
-  // if (token !== undefined && ionFile !== undefined) {
-  //   token = JSON.parse(token)
-  //   //ionFile = JSON.parse(ionFile)
-  //   //getEntities(token)
-  //   //postAttachmentToIdm(token)
-  //   Office.context.mailbox.getCallbackTokenAsync((response: Office.AsyncResult<string>) => {
-  //     if (response.status === Office.AsyncResultStatus.Succeeded) {
-  //       postAttachmentToIdm(token, response.value)
-  //     }
-  //   })
-  // }
+  const postAttachmentToIdm = async () => {
+
+    console.log(formError, formErrors)
+    console.log("Submit the form: ", attributes)
+
+    for (const key in formErrors) {
+      const value = formErrors[ key ]
+      if (value !== null && value.length > 0) {
+        setFormError(value)
+        return
+      }
+    }
+    setFormError(null)
+    //return
+
+
+    //Office.context.mailbox.getCallbackTokenAsync((result: Office.AsyncResult<string>) => {
+    // console.log("EWS: ", result.value);
+    //uploadAttachment(result.value)
+    //})
+
+    //   // const request = await fetch(url, postRequest)
+    //   // const json = await request.json()
+    //   console.log("Response: ", postRequest, url);
+    // }
+
+    // if (token !== undefined && ionFile !== undefined) {
+    //   token = JSON.parse(token)
+    //   //ionFile = JSON.parse(ionFile)
+    //   //getEntities(token)
+    //   //postAttachmentToIdm(token)
+    //   Office.context.mailbox.getCallbackTokenAsync((response: Office.AsyncResult<string>) => {
+    //     if (response.status === Office.AsyncResultStatus.Succeeded) {
+    //       postAttachmentToIdm(token, response.value)
+    //     }
+    //   })
+  }
 
   const attachments: IChoiceGroupOption[] = Office.context.mailbox.item.attachments.map((attachment): IChoiceGroupOption => {
     return {
@@ -144,15 +186,26 @@ export const Main = ({ history }: RouteComponentProps) => {
   }
   const renderSubmitButton = () => {
     return selectedEntity !== undefined ? (
-      <PrimaryButton
-        iconProps={ { iconName: "CloudUpload" } }
-        onClick={ uploadDocument }
-        text="Upload" />
+      <React.Fragment>
+        <InlineNotification
+          type="error"
+          message={ formError } />
+        <PrimaryButton
+          iconProps={ { iconName: "CloudUpload" } }
+          onClick={ (_event: React.MouseEvent<HTMLElement>) => {
+            postAttachmentToIdm()
+          } }
+          text="Upload" />
+      </React.Fragment>
     ) : null
   }
-  const uploadDocument = (_event: React.MouseEvent<HTMLElement>) => {
-    console.log("Acls: ", acls)
-    console.log("Attributes: ", attributes)
+  const renderErrorMessage = () => {
+    return formError === undefined && formError.length > 0 ? (
+      <ErrorMessage
+        message={ formError }
+        setShow={ () => { setFormError(null) } }
+        show={ true } />
+    ) : null
   }
 
   return (
@@ -161,6 +214,7 @@ export const Main = ({ history }: RouteComponentProps) => {
         history={ history }
         showSettingsPath={ true } />
       <main className="ms-welcome__main">
+        { renderErrorMessage() }
         <div className="ms-Card__main" style={ { boxShadow: DefaultEffects.elevation4 } }>
           <ChoiceGroup
             selectedKey={ selectedAttachment }
@@ -169,10 +223,13 @@ export const Main = ({ history }: RouteComponentProps) => {
             label="Select attachment" />
         </div>
         { renderDocumentEntities() }
-        <Attributes attributes={ attributes } />
+        <Attributes
+          attributes={ attributes }
+          formErrors={ formErrors }
+          setFormErrors={ setFormErrors } />
         <Acls acls={ acls } />
-        { renderSubmitButton() }
         { renderLoadingIndicator() }
+        { renderSubmitButton() }
       </main>
     </React.Fragment >
   )

@@ -3,15 +3,22 @@ import { Toggle } from "office-ui-fabric-react/lib/components/Toggle"
 
 interface Props {
   checked: string | undefined,
+  defaultValue: string | undefined,
   label: string,
   onChange: (checked: boolean | string) => void
 }
 
 export const AttributeBoolean = ({
   checked,
+  defaultValue,
   label,
   onChange
 }: Props) => {
+
+  React.useEffect(() => {
+    onChange(defaultValue === "true")
+  }, [])
+
   return (
     <Toggle
       label={ label }
@@ -22,5 +29,4 @@ export const AttributeBoolean = ({
         onChange(checked)
       } } />
   )
-
 }

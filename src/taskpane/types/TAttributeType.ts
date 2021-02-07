@@ -1,0 +1,1 @@
+export type TAttributeType = "BOOL" | "DATE" | "DECIMAL" | "DOUBLE" | "LONG" | "SHORT" | "STRING" | "TIME" | "TIMESTAMP" | "UUID"

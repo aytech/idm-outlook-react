@@ -5,12 +5,20 @@ import { AttributeString } from "./attributes/AttributeString"
 import { AttributeBoolean } from "./attributes/AttributeBoolean"
 
 interface Props {
-  attribute: IAttribute
+  attribute: IAttribute,
+  setFormError: (name: string, message: string | null) => void
 }
 
-export const Attribute = ({ attribute }: Props) => {
+interface AttributeType {
+  [ key: string ]: string
+}
 
-  const ATTRIBUTE_TYPES = {
+export const Attribute = ({
+  attribute,
+  setFormError
+}: Props) => {
+
+  const AttributeTypes: AttributeType = {
     BOOLEAN: "20", // ICR
     DATE: "7", // ICR & CM
     DECIMAL: "6", // ICR & CM
@@ -21,7 +29,16 @@ export const Attribute = ({ attribute }: Props) => {
     TIME: "8", // ICR & CM
     TIMESTAMP: "9", // ICR & CM
     UUID: "21" // ICR
-  }
+  } as const;
+
+  React.useEffect(() => {
+    for (const attributeName in AttributeTypes) {
+      if (AttributeTypes[ attributeName ] === attribute.type) {
+        attribute.type = attributeName
+        break
+      }
+    }
+  }, [ attribute ])
 
   const updateAttributeValue = (value: boolean | string): void => {
     attribute.value = value
@@ -34,9 +51,16 @@ export const Attribute = ({ attribute }: Props) => {
     return true
   }
 
+  /***
+   * Attribute might have 2 types of type definitions:
+   *  - number (when retrieved from API)
+   *  - string (explicitly set, as POST expects this)
+   */
   switch (attribute.type) {
-    case ATTRIBUTE_TYPES.DATE:
-    case ATTRIBUTE_TYPES.TIMESTAMP:
+    case "DATE":
+    case "TIMESTAMP":
+    case AttributeTypes.DATE:
+    case AttributeTypes.TIMESTAMP:
       // Pending validation functionality
       return null
     // return (
@@ -45,14 +69,17 @@ export const Attribute = ({ attribute }: Props) => {
     //     onChange={ updateAttributeValue }
     //   />
     // )
-    case ATTRIBUTE_TYPES.BOOLEAN:
+    case "BOOLEAN":
+    case AttributeTypes.BOOLEAN:
       return (
         <AttributeBoolean
           checked={ attribute.default }
+          defaultValue={ attribute.default }
           label={ attribute.desc }
           onChange={ updateAttributeValue } />
       )
-    case ATTRIBUTE_TYPES.STRING:
+    case "STRING":
+    case AttributeTypes.STRING:
       if (attribute.valueset !== undefined) {
         return (
           <AttributeValueSet
@@ -62,19 +89,27 @@ export const Attribute = ({ attribute }: Props) => {
       }
       return (
         <AttributeString
+          setFormError={ setFormError }
           defaultValue={ attribute.default }
           label={ attribute.desc }
           isValidRequired={ isValidRequired }
+          name={ attribute.name }
           onChange={ updateAttributeValue }
           required={ attribute.required === "true" }
           size={ attribute.size } />
       )
-    case ATTRIBUTE_TYPES.SHORT:
-    case ATTRIBUTE_TYPES.LONG:
-    case ATTRIBUTE_TYPES.DECIMAL:
-    case ATTRIBUTE_TYPES.TIME:
-    case ATTRIBUTE_TYPES.DOUBLE:
-    case ATTRIBUTE_TYPES.UUID:
+    case "SHORT":
+    case AttributeTypes.SHORT:
+    case "LONG":
+    case AttributeTypes.LONG:
+    case "DECIMAL":
+    case AttributeTypes.DECIMAL:
+    case "TIME":
+    case AttributeTypes.TIME:
+    case "DOUBLE":
+    case AttributeTypes.DOUBLE:
+    case "UUID":
+    case AttributeTypes.UUID:
     default:
       return null
   }

@@ -36,7 +36,7 @@ export const Profile = ({ history }: RouteComponentProps) => {
           // see https://docs.microsoft.com/en-us/office/dev/add-ins/develop/dialog-handle-errors-events
         })
         result.value.addEventHandler(Office.EventType.DialogMessageReceived, (data: { message: string | boolean } | { error: number }) => {
-          Office.context.roamingSettings.set("token", data[ "message" ])
+          Office.context.roamingSettings.set("token", JSON.parse(data[ "message" ]))
           Office.context.roamingSettings.saveAsync()
           result.value.close()
           history.push("/main")
