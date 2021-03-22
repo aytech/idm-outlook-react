@@ -1,74 +1,87 @@
 import * as React from "react"
 import { TextField } from "office-ui-fabric-react/lib/components/TextField"
+import { IAttribute } from "../../types/IAttribute"
 
 interface Props {
-  defaultValue: string | undefined,
-  label: string,
-  isValidRequired: (value: string | undefined) => boolean,
-  name: string,
+  attribute: IAttribute,
+  // defaultValue: string | undefined,
+  // label: string,
+  validateMaxLimit: (attribute: IAttribute) => boolean,
+  validateRequired: (attribute: IAttribute) => boolean,
+  // name: string,
   onChange: (value: string) => void,
-  required: boolean,
+  // required: boolean,
   setFormError: (name: string, message: string) => void,
-  size: string | undefined
+  // size: string | undefined
 }
 
 export const AttributeString = ({
+  attribute,
   setFormError,
-  defaultValue,
-  label,
-  isValidRequired,
-  name,
-  onChange,
-  required,
-  size
+  validateMaxLimit,
+  validateRequired
 }: Props) => {
 
   const [ errorMessage, setErrorMessage ] = React.useState<string>()
-  const validateRequired = (value: string | undefined): boolean => {
-    if (isValidRequired(value)) {
-      setErrorMessage(null)
-      setFormError(name, null)
-      return true
+  const resetFormError = () => {
+    setErrorMessage(null)
+    setFormError(attribute.name, null)
+  }
+  const validate = (): void => {
+    if (validateRequired(attribute)) {
+      resetFormError()
     } else {
       setErrorMessage("Value is required")
-      setFormError(name, `Field "${ label }" is required`)
-      return false
+      setFormError(attribute.name, `Field "${ attribute.desc }" is required`)
+      return
     }
-  }
-  const validateLength = (value: string | undefined): boolean => {
-    if (value !== undefined && size !== undefined) {
-      const limit = Number(size)
-      if (limit !== NaN && value.length > limit) {
-        setErrorMessage(`Value cannot have more than ${ limit } characters`)
-        setFormError(name, `Field "${ label }" cannot have more than ${ limit } characters`)
-        return false
-      }
+    if (validateMaxLimit(attribute)) {
+      resetFormError()
+    } else {
+      setErrorMessage(`Value cannot have more than ${ attribute.size } characters`)
+      setFormError(attribute.name, `Field "${ attribute.desc }" cannot have more than ${ attribute.size } characters`)
+      return
     }
-    setErrorMessage(null)
-    setFormError(name, null)
-    return true
+    resetFormError()
   }
+  // const validateLength = (): boolean => {
+  //   if (value !== undefined && size !== undefined) {
+  //     const limit = Number(size)
+  //     if (limit !== NaN && value.length > limit) {
+  //       setErrorMessage(`Value cannot have more than ${ limit } characters`)
+  //       setFormError(name, `Field "${ label }" cannot have more than ${ limit } characters`)
+  //       return false
+  //     }
+  //   }
+  //   setErrorMessage(null)
+  //   setFormError(name, null)
+  //   return true
+  // }
 
   React.useEffect(() => {
-    validateRequired(defaultValue)
-    validateLength(defaultValue)
-    onChange(defaultValue)
+    // validateRequired()
+    // validateLength()
+    // onChange(attribute.default)
+    validate()
   }, [])
 
   return (
     <TextField
-      defaultValue={ defaultValue === undefined ? "" : defaultValue }
+      defaultValue={ attribute.default === undefined ? "" : attribute.default }
       errorMessage={ errorMessage }
-      label={ label }
-      required={ required }
+      label={ attribute.desc }
+      required={ attribute.required === "true" ? true : false }
       onChange={ (_event: React.FormEvent<HTMLElement>, value: string): void => {
-        if (!validateRequired(value)) {
-          return
-        }
-        if (!validateLength(value)) {
-          return
-        }
-        onChange(value)
+        attribute.value = value
+        validate()
+
+        // if (!validateRequired(value)) {
+        //   return
+        // }
+        // if (!validateLength(value)) {
+        //   return
+        // }
+        // onChange(value)
       } } />
   )
 }

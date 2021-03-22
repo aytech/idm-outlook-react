@@ -64,6 +64,35 @@ export const Main = ({ history }: RouteComponentProps) => {
     setOriginalEntities(entities)
   }
 
+  const validateRequired = (attribute: IAttribute): boolean => {
+    if (attribute.required !== "true") {
+      return true
+    }
+    let value: string | boolean = attribute.value;
+    if (value === undefined) {
+      value = attribute.default
+    }
+    if (typeof value === "string") {
+      return value !== undefined && value.trim().length > 0
+    }
+    return value !== undefined
+  }
+
+  const validateMaxLimit = (attribute: IAttribute): boolean => {
+    if (attribute.size === undefined) {
+      return true
+    }
+    const max = Number(attribute.size)
+    let value: string | boolean = attribute.value;
+    if (value === undefined) {
+      value = attribute.default
+    }
+    if (typeof value === "string") {
+      return value !== undefined && max !== NaN && value.trim().length <= max
+    }
+    return true
+  }
+
   React.useEffect(() => {
     if (token !== undefined && ionFile !== undefined) {
       getEntities()
@@ -103,20 +132,13 @@ export const Main = ({ history }: RouteComponentProps) => {
   // }
 
   const postAttachmentToIdm = async () => {
-
-    console.log(formError, formErrors)
-    console.log("Submit the form: ", attributes)
-
     for (const key in formErrors) {
       const value = formErrors[ key ]
       if (value !== null && value.length > 0) {
-        setFormError(value)
+        setFormError("Please correct errors")
         return
       }
     }
-    setFormError(null)
-    //return
-
 
     //Office.context.mailbox.getCallbackTokenAsync((result: Office.AsyncResult<string>) => {
     // console.log("EWS: ", result.value);
@@ -226,6 +248,8 @@ export const Main = ({ history }: RouteComponentProps) => {
         <Attributes
           attributes={ attributes }
           formErrors={ formErrors }
+          validateMaxLimit={ validateMaxLimit }
+          validateRequired={ validateRequired }
           setFormErrors={ setFormErrors } />
         <Acls acls={ acls } />
         { renderLoadingIndicator() }

@@ -8,12 +8,16 @@ import { IFormErrors } from "../types/IFormErrors";
 interface Props {
   attributes: IAttribute[],
   formErrors: IFormErrors,
+  validateMaxLimit: (attribute: IAttribute) => boolean,
+  validateRequired: (attribute: IAttribute) => boolean,
   setFormErrors: (errors: IFormErrors) => void
 }
 
 export const Attributes = ({
   attributes,
   formErrors,
+  validateMaxLimit,
+  validateRequired,
   setFormErrors
 }: Props) => {
 
@@ -38,6 +42,8 @@ export const Attributes = ({
                 <Attribute
                   attribute={ attribute }
                   key={ attribute.name }
+                  validateMaxLimit={ validateMaxLimit }
+                  validateRequired={ validateRequired }
                   setFormError={ setFormError }
                 />
               )

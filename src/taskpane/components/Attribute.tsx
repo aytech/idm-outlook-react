@@ -6,6 +6,8 @@ import { AttributeBoolean } from "./attributes/AttributeBoolean"
 
 interface Props {
   attribute: IAttribute,
+  validateMaxLimit: (attribute: IAttribute) => boolean,
+  validateRequired: (attribute: IAttribute) => boolean,
   setFormError: (name: string, message: string | null) => void
 }
 
@@ -15,6 +17,8 @@ interface AttributeType {
 
 export const Attribute = ({
   attribute,
+  validateMaxLimit,
+  validateRequired,
   setFormError
 }: Props) => {
 
@@ -42,13 +46,6 @@ export const Attribute = ({
 
   const updateAttributeValue = (value: boolean | string): void => {
     attribute.value = value
-  }
-
-  const isValidRequired = (value: string | undefined): boolean => {
-    if (attribute.required === "true") {
-      return value.trim().length > 0
-    }
-    return true
   }
 
   /***
@@ -89,14 +86,20 @@ export const Attribute = ({
       }
       return (
         <AttributeString
-          setFormError={ setFormError }
-          defaultValue={ attribute.default }
-          label={ attribute.desc }
-          isValidRequired={ isValidRequired }
-          name={ attribute.name }
+          attribute={ attribute }
+          validateMaxLimit={ validateMaxLimit }
+          validateRequired={ validateRequired }
           onChange={ updateAttributeValue }
-          required={ attribute.required === "true" }
-          size={ attribute.size } />
+          setFormError={ setFormError } />
+        // <AttributeString
+        //   defaultValue={ attribute.default }
+        //   isValidRequired={ isValidRequired }
+        //   label={ attribute.desc }
+        //   name={ attribute.name }
+        //   onChange={ updateAttributeValue }
+        //   required={ attribute.required === "true" }
+        //   setFormError={ setFormError }
+        //   size={ attribute.size } />
       )
     case "SHORT":
     case AttributeTypes.SHORT:

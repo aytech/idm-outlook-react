@@ -2,12 +2,12 @@ import * as React from "react"
 import { MessageBar, MessageBarType } from "office-ui-fabric-react/lib/MessageBar";
 
 interface Props {
-  type: "error" | "success",
-  message: string | null
+  message: string | null,
+  type: "error" | "success"
 }
 export const InlineNotification = ({
-  type,
-  message }: Props
+  message,
+  type }: Props
 ) => {
 
   const getType = () => {
@@ -21,12 +21,12 @@ export const InlineNotification = ({
     <MessageBar
       className="message-bar-inline"
       messageBarType={ getType() }
-      isMultiline={ false }
+      isMultiline={ true }
       onDismiss={ () => {
         console.log("Dismissed");
       } }
       dismissButtonAriaLabel="Close">
-      { message }
+      {message }
     </MessageBar>
   ) : null
 }
