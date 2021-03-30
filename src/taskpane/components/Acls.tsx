@@ -5,10 +5,11 @@ import { DefaultEffects } from "office-ui-fabric-react/lib/Styling"
 import { IStackProps, Stack } from "office-ui-fabric-react/lib/components/Stack"
 
 interface Props {
-  acls: IAcl[]
+  acls: IAcl[],
+  setSelectedAcl: (acl: string) => void
 }
 
-export const Acls = ({ acls }: Props) => {
+export const Acls = ({ acls, setSelectedAcl }: Props) => {
   const options = acls.map((acl: IAcl) => {
     return { key: acl.id, text: acl.name }
   })
@@ -25,7 +26,7 @@ export const Acls = ({ acls }: Props) => {
           <Dropdown
             label="Access Control Lists"
             onChange={ (_event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
-              console.log("Change: ", item)
+              setSelectedAcl(item.text)
               setSelectedItem(item)
             } }
             options={ options }

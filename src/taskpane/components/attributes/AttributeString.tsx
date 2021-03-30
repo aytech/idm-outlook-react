@@ -4,15 +4,10 @@ import { IAttribute } from "../../types/IAttribute"
 
 interface Props {
   attribute: IAttribute,
-  // defaultValue: string | undefined,
-  // label: string,
   validateMaxLimit: (attribute: IAttribute) => boolean,
   validateRequired: (attribute: IAttribute) => boolean,
-  // name: string,
   onChange: (value: string) => void,
-  // required: boolean,
   setFormError: (name: string, message: string) => void,
-  // size: string | undefined
 }
 
 export const AttributeString = ({
@@ -44,24 +39,8 @@ export const AttributeString = ({
     }
     resetFormError()
   }
-  // const validateLength = (): boolean => {
-  //   if (value !== undefined && size !== undefined) {
-  //     const limit = Number(size)
-  //     if (limit !== NaN && value.length > limit) {
-  //       setErrorMessage(`Value cannot have more than ${ limit } characters`)
-  //       setFormError(name, `Field "${ label }" cannot have more than ${ limit } characters`)
-  //       return false
-  //     }
-  //   }
-  //   setErrorMessage(null)
-  //   setFormError(name, null)
-  //   return true
-  // }
 
   React.useEffect(() => {
-    // validateRequired()
-    // validateLength()
-    // onChange(attribute.default)
     validate()
   }, [])
 
@@ -74,14 +53,6 @@ export const AttributeString = ({
       onChange={ (_event: React.FormEvent<HTMLElement>, value: string): void => {
         attribute.value = value
         validate()
-
-        // if (!validateRequired(value)) {
-        //   return
-        // }
-        // if (!validateLength(value)) {
-        //   return
-        // }
-        // onChange(value)
       } } />
   )
 }

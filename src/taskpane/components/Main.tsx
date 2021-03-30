@@ -29,6 +29,7 @@ export const Main = ({ history }: RouteComponentProps) => {
   const [ loadingDescription ] = React.useState("Fetching document entities...")
   const [ entities, setEntities ] = React.useState<IDocumentEntity[]>([])
   const [ originalEntities, setOriginalEntities ] = React.useState<IEntity[]>([])
+  const [ selectedAcl, setSelectedAcl ] = React.useState<string>(null)
   const [ selectedEntity, setSelectedEntity ] = React.useState<IDropdownOption>();
   const [ attributes, setAttributes ] = React.useState<IAttribute[]>([]);
   const [ formError, setFormError ] = React.useState<string>(null)
@@ -139,6 +140,15 @@ export const Main = ({ history }: RouteComponentProps) => {
         return
       }
     }
+    if (selectedAcl === null) {
+      setFormError("Please select Access Control List")
+      return
+    }
+    setFormError(null)
+
+    // Check for ACL errors
+    console.log("Attributes: ", attributes);
+
 
     //Office.context.mailbox.getCallbackTokenAsync((result: Office.AsyncResult<string>) => {
     // console.log("EWS: ", result.value);
@@ -251,7 +261,9 @@ export const Main = ({ history }: RouteComponentProps) => {
           validateMaxLimit={ validateMaxLimit }
           validateRequired={ validateRequired }
           setFormErrors={ setFormErrors } />
-        <Acls acls={ acls } />
+        <Acls
+          acls={ acls }
+          setSelectedAcl={ setSelectedAcl } />
         { renderLoadingIndicator() }
         { renderSubmitButton() }
       </main>

@@ -91,18 +91,10 @@ export const Attribute = ({
           validateRequired={ validateRequired }
           onChange={ updateAttributeValue }
           setFormError={ setFormError } />
-        // <AttributeString
-        //   defaultValue={ attribute.default }
-        //   isValidRequired={ isValidRequired }
-        //   label={ attribute.desc }
-        //   name={ attribute.name }
-        //   onChange={ updateAttributeValue }
-        //   required={ attribute.required === "true" }
-        //   setFormError={ setFormError }
-        //   size={ attribute.size } />
       )
     case "SHORT":
     case AttributeTypes.SHORT:
+      // In progress
     case "LONG":
     case AttributeTypes.LONG:
     case "DECIMAL":
